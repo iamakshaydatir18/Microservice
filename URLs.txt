@@ -1,0 +1,20 @@
+Vegitables
+ -http://localhost:8000/vegitables/spinach
+ -http://localhost:8001/vegitables/spinach
+Fruits
+ -http://localhost:8080/fruits/Orange
+ -http://localhost:8081/fruits/Orange
+
+without feign
+ -http://localhost:8500/order/vegitables/Carrot/8
+ -http://localhost:8500/order/fruits/Mango/8
+
+feign 
+ -http://localhost:8500/order/vegitables-feign/cucumber/5 
+ -http://localhost:8500/order/fruits-feign/Orange/5
+
+Eureka
+-http://localhost:8761/
+
+Zipkin
+- http://localhost:9411/zipkin/

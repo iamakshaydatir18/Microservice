@@ -1,0 +1,70 @@
+version: '3.7'
+
+services:
+  order-vegitable: 
+    image: docker.io/akshaydatir/demo-order-vegitable:0.0.1-RELEASE
+    mem_limit: 700m
+    ports:
+      - "8000:8000"
+    networks:
+      - order-network
+    depends_on:
+      - eureka   
+    environment: 
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka:8761/eureka
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+         
+  order-fruits: 
+    image: docker.io/akshaydatir/demo-order-fruits:0.0.1-RELEASE
+    mem_limit: 700m
+    ports:
+      - "8080:8080"
+    networks:
+      - order-network
+    depends_on:
+      - eureka 
+    environment: 
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka:8761/eureka
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+
+  order: 
+    image: docker.io/akshaydatir/demo-0rder:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8500:8500"
+    networks:
+      - order-network
+    depends_on:
+      - eureka   
+      - order-fruits
+      - order-vegitable
+    environment: 
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://eureka:8761/eureka        
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+      VEGITABLE_ORDER_SERVICE_HOST: http://vegitable-order
+      FRUIT_ORDER_SERVICE_HOST: http://fruit-order
+          
+  eureka: 
+    image: docker.io/akshaydatir/demo-eureka:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8761:8761"
+    networks:
+      - order-network
+
+  zipkin-server:
+    image: openzipkin/zipkin:2.23
+    mem_limit: 300m
+    ports:
+      - "9411:9411"
+    networks:
+      - order-network
+    
+networks: 
+  order-network: 
+   
+   
+   
+   
+   
+   
